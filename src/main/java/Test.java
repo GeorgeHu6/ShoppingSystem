@@ -3,11 +3,14 @@ import modellayer.GoodList;
 import modellayer.ModelToolClass;
 import modellayer.User;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,10 +21,11 @@ public class Test {
 //
 //        System.out.println(document.toString());
 
-        GoodList goodList = new GoodList();
-        System.out.print(Good.tableHeadOneForCustomer());
-        System.out.println(goodList.getCurList().get(0).toCustomerString());
-
+        Hashtable<String, Long> hashtable = new Hashtable<>();
+        hashtable.put("test1", 123L);
+        System.out.println(hashtable.get(new String("test1")).toString());
+        hashtable.put("test1", 234L);
+        System.out.println(hashtable.get(new String("test1")).toString());
 
         /*
         Pattern pattern1 = Pattern.compile("\\p{Graph}");

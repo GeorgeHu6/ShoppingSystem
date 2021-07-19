@@ -32,14 +32,19 @@ public class Cart extends Hashtable<ObjectId, Long> {
         Document userInfo;
 
         userInfo = usersCollection.find(eq("_id", new ObjectId(userID))).first();
+        if (userInfo.get("cart") == null)
+            return;
 
         for (Document doc : (ArrayList<Document>) userInfo.get("cart")) {
             for (Map.Entry<String, Object> i :doc.entrySet()) {
                 this.put(new ObjectId(i.getKey()), (Long) i.getValue());
             }
         }
-        System.out.println(this);
+        //System.out.println(this);
+    }
 
+    public Cart() {
+        super();
     }
 
     public boolean saveToDatabase() {
@@ -65,5 +70,22 @@ public class Cart extends Hashtable<ObjectId, Long> {
         }
 
         return res;
+    }
+
+    public boolean addItem(Good good, long n) {
+        ObjectId goodID = good.getId();
+        Long value;
+
+        if (this.containsKey(goodID)) {
+            value = this.get(goodID);
+            this.put(goodID, value+n);
+        }
+        else {
+            this.put(goodID, n);
+        }
+
+        this.saveToDatabase();
+
+        return true;
     }
 }
