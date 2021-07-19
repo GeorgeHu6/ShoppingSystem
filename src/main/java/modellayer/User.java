@@ -22,6 +22,7 @@ public class User {
     Date registerDate;
     String phoneNumber;
     String email;
+    Cart userCart;
 
 
     public User(boolean isAdmin, String username, String phoneNumber, String email) {
@@ -37,6 +38,13 @@ public class User {
     public User() {
     }
 
+    public boolean initCart(String id) {
+        this.id = id;
+        this.userCart = new Cart(id);
+
+        return true;
+    }
+
     public boolean userRegister(String psw) {
         if (userExisted(this.username))
             return false;
@@ -49,10 +57,14 @@ public class User {
 
         userInfo.append("password", ModelToolClass.getSHA(psw));
         userInfo.append("isAdmin", this.admin);
+
         usersCollection.insertOne(userInfo);
 
         this.id = usersCollection.find(eq("username", username)).first().getObjectId("_id").toString();
         this.logined = true;
+
+        this.userCart = new Cart(this.id);
+        this.userCart.saveToDatabase();
 
         return true;
     }
@@ -78,6 +90,7 @@ public class User {
 
             res.registerDate = objId.getDate();
             res.id = objId.toString();
+            res.initCart(res.id);
 
             return res;
         } else {
@@ -112,7 +125,7 @@ public class User {
         MongoDatabase database = client.getDatabase("ShoppingSystem");
         MongoCollection<Document> usersCollection = database.getCollection("Users");
 
-        usersCollection.find(eq("_id", id));
+        return usersCollection.find(eq("_id", id)).first()!=null;
     }
 
     // 密码不小于8位
@@ -170,5 +183,9 @@ public class User {
 
     public boolean isLogined() {
         return logined;
+    }
+
+    public Cart getUserCart() {
+        return userCart;
     }
 }

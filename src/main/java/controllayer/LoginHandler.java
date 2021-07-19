@@ -20,6 +20,7 @@ public class LoginHandler {
         User user = User.getInstance(this.username, this.password);
         if (user == null)
             return 1;
+
         return 0;
     }
 }
