@@ -1,6 +1,7 @@
 package modellayer;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import viewlayer.ViewToolClass;
 
 import java.text.SimpleDateFormat;
@@ -66,5 +67,9 @@ public class Good {
 
     public Long getQuantity() {
         return quantity;
+    }
+
+    public ObjectId getId() {
+        return new ObjectId(this.id);
     }
 }

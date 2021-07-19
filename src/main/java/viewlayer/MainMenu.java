@@ -78,7 +78,7 @@ public class MainMenu {
                 shoppingFlag = true;
                 while (shoppingFlag) {
                     statusCode = shoppingPage(is);
-                    if ()
+                    //if ()
                 }
                 return curUser;
             }

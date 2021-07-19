@@ -22,6 +22,7 @@ public class User {
     Date registerDate;
     String phoneNumber;
     String email;
+    Cart userCart;
 
 
     public User(boolean isAdmin, String username, String phoneNumber, String email) {
@@ -112,7 +113,7 @@ public class User {
         MongoDatabase database = client.getDatabase("ShoppingSystem");
         MongoCollection<Document> usersCollection = database.getCollection("Users");
 
-        usersCollection.find(eq("_id", id));
+        return usersCollection.find(eq("_id", id)).first()!=null;
     }
 
     // 密码不小于8位
